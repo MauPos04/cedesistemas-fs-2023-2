@@ -25,6 +25,7 @@ header{
     padding: 10px;
     display: flex;
     align-items: center;
+
 }
 
 nav{
@@ -129,6 +130,10 @@ form h4{
 
 }
 
+
+
+
+
 #section-home{
     display: flex;
     margin: 100px 60px;
@@ -142,4 +147,67 @@ form h4{
 
 #section-home > div:first-child{
     margin-right: 10px;
+}
+
+
+#section-design{
+
+    margin: 15px 15px;
+    /* border: 1px solid rgb(0, 213, 255); */
+    text-align: center;
+    
+    
+}
+
+.container2 h2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  
+    margin-top: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    font-size: 40px;
+    color: #6262a8;
+    /* border: 1px solid red; */
+    text-align: center;
+    align-items: center;
+    
+    
+
+
+}
+
+.boxes2{
+    display: flex;
+
+    
+    padding-top: 0px;
+    padding-bottom: 100px;
+    margin-right: 100px;
+    margin-left: 100px;
+    border: 20px;
+    font-size: 22px ;
+    justify-content: center;
+    /* border: 1px solid red */
+}
+
+.im2{
+    align-items: center;
+    padding: 20px;
+    text-align: center  ;
+    /* border: 1px solid red; */
+    width: auto;
+    margin-top: 10px;
+
+}
+
+.im2 img{
+    width: 70;
+    height: 70px;
+}
+
+
+.text2 h3{
+    color: #6262a8;
 }
