@@ -1,16 +1,15 @@
 // import { Fragment } from "react"
-import { Topbar } from "../../components/Topbar"
 import { Categories } from "./components/Categories"
+import { Layout } from "../../components/Layout"
+import { TopEvents } from "./components/TopEvents"
 
 export const Home = () => {
 
   return(
-    // Fragment o vacio
-
-    <>
-      <Topbar/>
-      <h2>Home Page</h2>
+    // Fragment o vacio <>
+    <Layout>
       <Categories/>
-    </>
+      <TopEvents/>
+    </Layout>
   )
 }
