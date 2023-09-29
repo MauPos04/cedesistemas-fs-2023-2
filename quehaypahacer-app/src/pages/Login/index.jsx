@@ -4,7 +4,7 @@ import { Button, COLORS } from '../../globalStyles'
 import { Link } from 'react-router-dom'
 
 export const FormContainer = styled.section `
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
 `
 

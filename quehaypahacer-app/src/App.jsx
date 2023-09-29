@@ -5,6 +5,7 @@ import { EventDetail } from "./pages/EventDetail"
 import { Profile } from './pages/Profile'
 import { Confirmation } from './pages/Confirmation'
 import { Login } from './pages/Login'
+import {Registration} from './pages/Registration'
 
 const router = createBrowserRouter ([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter ([
   {
     path:'/login',
     element: <Login/>
+  },
+  {
+    path:'/registration',
+    element: <Registration/>
   }
 ])
 
