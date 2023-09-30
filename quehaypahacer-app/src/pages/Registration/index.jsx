@@ -1,5 +1,5 @@
 import { Layout } from "../../components/Layout"
-import { FormContainer, FormControl } from "../Login"
+import { FormContainer, FormControl } from "../../globalStyles"
 
 export const Registration =() => {
   return(

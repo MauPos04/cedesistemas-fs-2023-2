@@ -1,46 +1,44 @@
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import{Layout} from '../../components/Layout'
-import { Button, COLORS } from '../../globalStyles'
+import { Button, FormContainer, FormControl } from '../../globalStyles'
 import { Link } from 'react-router-dom'
+import {useForm} from 'react-hook-form'
 
-export const FormContainer = styled.section `
-  /* border: 1px solid red; */
+const emailPattern = /^[A-Za-z]+[A-Za-z0-9_\.]*@[A-Za-z0-9]+\.[A-Za-z]+/i
 
-`
-
-export const FormControl = styled.div`
-  margin:10px 0;
-  input{
-    width:100%;
-    font-family: 'Montserrat';
-    font-size: 1.1em;
-    border: 2px solid ${COLORS.secondary};
-    border-radius: 6px ;
-    padding: 8px 10px;
-    outline:none;
-  }
-`
 export const Login =() => {
+
+  const {register, handleSubmit, formState: {errors}} = useForm()
+
+  const onSubmitLogin = data => {
+    console.log('formData', data)
+  }
+
   return(
     <Layout>
       <h2>Iniciar sesión</h2>
       <hr/>
       <FormContainer>
-        <form>
+        <form onSubmit={handleSubmit(onSubmitLogin)} noValidate>
           <FormControl>
             <label>Correo electrónico</label>
-            <input type="email" />
+            {/* operador spread */}
+            <input type="email"  {...register("email", {required: true, pattern: emailPattern})}/>
+            {errors.email?.type === 'required' && <span>Correo requerido</span>}
+            {errors.email?.type === 'pattern' && <span>Correo no válido</span>}
           </FormControl>
 
-          <FormControl>
+          <FormControl fontSize= "1.2em">
             <label>Contraseña</label>
-            <input type="password" />
+            <input type="password" {...register("password", {required:true, minLength:4})}/>
+            {errors.password?.type === 'required' && <span>Campo requerido</span>}
+            {errors.password?.type === 'minLength' && <span>Mínimo 4 caracteres</span>}
           </FormControl>
 
           <Button type='submit'>Acceder</Button>
         </form>
       </FormContainer>
-      <p>¿Aún no tienes una cuenta ?<Link to="/signup">Registrate</Link></p>
+      <p>¿Aún no tienes una cuenta ? <Link to="/signup">Registrate</Link></p>
 
     </Layout>
   )
