@@ -1,14 +1,24 @@
 import { Layout } from "../../components/Layout"
-import { FormContainer, FormControl } from "../../globalStyles"
+import { FormContainer, FormControl,Button } from "../../globalStyles"
+import {useForm} from 'react-hook-form'
 
-export const Registration =() => {
+const emailPattern = /^[A-Za-z]+[A-Za-z0-9_\.]*@[A-Za-z0-9]+\.[A-Za-z]+/i
+
+
+export const Signup =() => {
+
+  const {register, handleSubmit, formState: {errors}} = useForm()
+
+  const onSubmitLogin = data => {
+    console.log('formData', data)
+  }
   return(
     <Layout>
       <h2>Registration Form</h2>
       <p>A continuación ingrese los datos para su registro</p>
       <hr/>
       <FormContainer>
-        <form>
+        <form onSubmit={handleSubmit(onSubmitLogin)} noValidate>
 
           <FormControl>
             <label>Ingrese su nombre </label>
@@ -21,8 +31,10 @@ export const Registration =() => {
           </FormControl>
 
           <FormControl>
-            <label>Ingrese su correo </label>
-            <input type="text"/>
+            <label>Ingrese su correo electronico </label>
+            <input type="email"  {...register("email", {required: true, pattern: emailPattern})}/>
+            {errors.email?.type === 'required' && <span>Correo requerido</span>}
+            {errors.email?.type === 'pattern' && <span>Correo no válido</span>}
           </FormControl>
 
           <FormControl>
@@ -41,12 +53,13 @@ export const Registration =() => {
           </FormControl>
 
           <FormControl>
-            <label>Ingrese su contraseña </label>
-            <input type="password"/>
+            <label>Ingrese su Contraseña</label>
+            <input type="password" {...register("password", {required:true, minLength:4})}/>
+            {errors.password?.type === 'required' && <span>Campo requerido</span>}
+            {errors.password?.type === 'minLength' && <span>Mínimo 4 caracteres</span>}
           </FormControl>
 
-
-
+          <Button type='submit'>Registrar cuenta</Button>
 
         </form>
       </FormContainer>

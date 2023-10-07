@@ -111,7 +111,7 @@ const Event = (props) =>(
 
 )
 
-export const TopEvents = () =>{
+export const TopEvents = ({latitude = null, longitude = null}) =>{
 
   const {categoryState} = useContext(CategoryContext)
   const [events, setEvents] = useState(EVENTS_DATA)
@@ -132,10 +132,11 @@ export const TopEvents = () =>{
 
   return(
     <TopEventsContainer>
-    <h3>Eventos Cercanos {categoryState.categorySelected}</h3>
+    <h3>Eventos Cercanos </h3>
+    <p>{latitude}, {longitude}</p>
     <section>
       {
-        events.map(item => <Event {...item}/>)
+        events.map((item , key ) => <Event key = {key} {...item}/>)
       }
     </section>
     </TopEventsContainer>
