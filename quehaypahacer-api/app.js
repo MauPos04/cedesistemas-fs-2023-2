@@ -1,15 +1,15 @@
 const express = require('express')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
-app.get('/', (req, res) => {
-    res.send('Hola mundo express GET!!!!')
-})
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.post('/', (req, res) =>{
-    res.send("hola mundo express POST!!!")
-})
+//modules
+app.use('/users', require('./modules/users/users.routes'))
 
-app.listen(port, () =>{
-    console.log(`app running on http://localhost:${port}`)
+
+app.listen(port, () => {
+    console.log(`App running on port http://localhost:${port}`)
 })
