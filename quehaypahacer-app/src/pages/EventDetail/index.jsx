@@ -1,25 +1,67 @@
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Layout } from '../../components/Layout'
 import { Button, COLORS } from '../../globalStyles'
+import { useContext, useEffect, useState } from 'react'
+import { httpRequest, HTTP_METHODS } from '../../utils/HttpRequest'
+import { currencyFormat } from '../../utils/CurrencyFormat'
+import { dateFormat } from '../../utils/DateFormat'
+import { UserContext } from '../../contexts/UserContext'
+import { Alert } from '../../components/Alert'
+import { getCategoryText } from '../../constants/categoriesDict'
 
 export const EventDetail = () => {
 
   const { id } = useParams()
+  const [event, setEvent] = useState({})
+  const { user } = useContext(UserContext)
+
+  useEffect (() => {
+    loadEvent()
+  }, [id])
+
+  const loadEvent = async () => {
+    try {
+      const response = await httpRequest({
+        method: HTTP_METHODS.GET,
+        endpoint: `/events/${id}`
+      })
+
+      const {data} = response
+      setEvent(data)
+
+    } catch (error) {
+      // TODO
+    }
+  }
+
+  const joinToEvent = () => {
+    if (user.isAuth) { // puede unirse al evento
+      // TODO: taller final :D
+      // registrarlo al evento
+      // si sale bien: redireccionarlo a confirmation-screen
+      // si sale mal: mostrar una alerta con la restricción
+    } else {
+      Alert ({
+        title: 'Autenticación requerida',
+        text: 'Para unirte al evento debes estar autenticado'
+      })
+    }
+  }
 
   return (
     <Layout>
-      <h2>Titulo del evento {id} </h2>
+      <h2>{event.name}</h2>
       <div>
-        <img src="https://www.eltiempo.com/files/image_640_428/uploads/2022/07/29/62e3d34873715.jpeg" width="100%" />
+        <img src={event.image} width="100%" />
       </div>
       <div>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam facere inventore, nihil laboriosam sint asperiores fugiat praesentium adipisci. Porro officia quia deleniti veniam beatae delectus. Consequatur optio ullam excepturi vero!</p>
-        <p>Ubicación</p>
-        <p>Fecha</p>
-        <p>Categoría</p>
-        <p>Precio</p>
+        <p>{event.description}</p>
+        <p>{event.place}</p>
+        <p>{dateFormat(event.date)}</p>
+        <p>{getCategoryText(event.idCategory)}</p>
+        <p>{event.price === 0 ? 'Gratuito': currencyFormat(event.price)}</p>
       </div>
-      <Button color={COLORS.secondary}>Quiero participar</Button>
+      <Button onClick={joinToEvent} color={COLORS.secondary}>Quiero participar</Button>
     </Layout>
   )
 }

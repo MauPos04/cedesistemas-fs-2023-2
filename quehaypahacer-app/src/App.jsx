@@ -44,9 +44,11 @@ export const App = () => {
     <>
       <GlobalStyles />
 
+
       <UserContextStore>
         <RouterProvider router={router}/>
       </UserContextStore>
+
     </>
   )
 }

@@ -1,4 +1,6 @@
 import { createContext, useState } from "react"
+import { getToken, removeToken } from "../utils/TokenLocalStorage"
+import { httpRequest } from "../utils/HttpRequest"
 
 const defaultState = {
   isAuth: false,
@@ -20,11 +22,35 @@ export const UserContextStore = (props) => {
     setUser ({ ... userData, isAuth : true})
   }
 
+  const validateSession = () => {
+    const token = getToken()
+    if (token && !user.isAuth) {  //que exista el token pero NO tengamos el isauth en verdadero
+      requestUser()
+    }
+  }
+
+  const requestUser = async () => {
+    try{
+      const response = await httpRequest({
+        endpoint: '/users/info',
+        token: getToken()
+      })
+
+      const {data} = response
+      setAuthorization(data)
+    } catch (error){
+      logout()
+      //TODO
+    }
+  }
+
+
   const logout = () => {
     setUser(defaultState)
+    removeToken()
   }
   return (
-    <UserContext.Provider value = {{user, setAuthorization, logout}}>
+    <UserContext.Provider value = {{user, validateSession, logout}}>
       {props.children}
     </UserContext.Provider>
 

@@ -1,61 +1,71 @@
-// import styled from 'styled-components'
-import{Layout} from '../../components/Layout'
+import { Layout } from '../../components/Layout'
 import { Button, FormContainer, FormControl } from '../../globalStyles'
 import { Link, useNavigate } from 'react-router-dom'
-import {useForm} from 'react-hook-form'
-import { UserContext } from '../../contexts/UserContext'
+import { useForm } from 'react-hook-form'
 import { useContext } from 'react'
+import { UserContext } from '../../contexts/UserContext'
+import { httpRequest } from '../../utils/HttpRequest'
+import { setToken } from '../../utils/TokenLocalStorage'
+import { ALERT_ICON, Alert } from '../../components/Alert'
 
 const emailPattern = /^[A-Za-z]+[A-Za-z0-9_\.]*@[A-Za-z0-9]+\.[A-Za-z]+/i
 
-export const Login =() => {
+export const Login = () => {
 
-  const {setAuthorization} = useContext (UserContext)
+  //const { setAuthorization } = useContext(UserContext)
   const navigate = useNavigate()
-  const {register, handleSubmit, formState: {errors}} = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const onSubmitLogin = data => {
-    console.log('formData', data)
-    if(data.email === 'juanito@gmail.com' && data.password === '123456'){
-      const userData ={ //mockear
-        name : 'Juanito',
-        email: data.email,
-        document: '0000005',
-        phone: '555555'
-      }
-      setAuthorization(userData)
-      navigate('/')
+  const onSubmitLogin = async data => {
+    try {
+      const response = await httpRequest({
+        endpoint: '/users/login',
+        body: data
+      })
 
-  } else {
-    alert('Error de credenciales')
+      const {token} = response.data // TODO
+      setToken(token)
+      setTimeout(() => {
+        navigate('/')
+      }, 1000)
+      //setAuthorization({}) // TODO
+
+
+    } catch (error) {
+      Alert({
+        icon: ALERT_ICON.ERROR,
+        tittle: 'Credenciales invalidas ',
+        text: 'Verifica tus credenciales de acceso'
+      })
+    }
   }
-  }
 
-  return(
+  return (
     <Layout>
-      <h2>Iniciar sesión</h2>
-      <hr/>
+      <h2>Iniciar Sesión</h2>
+      <hr />
       <FormContainer>
         <form onSubmit={handleSubmit(onSubmitLogin)} noValidate>
           <FormControl>
             <label>Correo electrónico</label>
-            {/* operador spread */}
-            <input type="email"  {...register("email", {required: true, pattern: emailPattern})}/>
-            {errors.email?.type === 'required' && <span>Correo requerido</span>}
-            {errors.email?.type === 'pattern' && <span>Correo no válido</span>}
+            <input type="email" {...register("email", { required: true, pattern: emailPattern })} />
+            { errors.email?.type === 'required' && <span>Campo requerido</span> }
+            { errors.email?.type === 'pattern' && <span>Correo no válido</span> }
           </FormControl>
 
-          <FormControl fontSize= "1.2em">
+          <FormControl>
             <label>Contraseña</label>
-            <input type="password" {...register("password", {required:true, minLength:4})}/>
-            {errors.password?.type === 'required' && <span>Campo requerido</span>}
-            {errors.password?.type === 'minLength' && <span>Mínimo 4 caracteres</span>}
+            <input type="password" {...register("password", { required: true, minLength: 4 } )} />
+            { errors.password?.type === 'required' && <span>Campo requerido</span> }
+            { errors.password?.type === 'minLength' && <span>Mínimo 4 caracteres</span> }
           </FormControl>
 
-          <Button type='submit'>Acceder</Button>
+          <Button type="submit">Acceder</Button>
+
         </form>
       </FormContainer>
-      <p>¿Aún no tienes una cuenta ? <Link to="/signup">Registrate</Link></p>
+
+      <p>¿Aún no tienes una cuenta? <Link to="/signup">Regístrate</Link> </p>
 
     </Layout>
   )

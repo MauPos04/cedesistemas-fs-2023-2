@@ -1,11 +1,10 @@
 import styled from 'styled-components'
-import {COLORS} from '../../../../globalStyles'
+import { COLORS } from '../../../../globalStyles'
 
 const CategoryWrapper = styled.div`
   width: 80px;
   height: 80px;
-  /* background-color: ${COLORS.secondary}; */
-  background-color: ${props => props.isActive ? COLORS.primary : COLORS.secondary };
+  background-color: ${ props => props.$isActive ? COLORS.primary : COLORS.secondary };
   border-radius: 5px;
   margin: 0 5px;
   display: flex;
@@ -13,20 +12,20 @@ const CategoryWrapper = styled.div`
   align-items: center;
   justify-content: center;
 
-
-  p{
+  p {
     color: #fff;
-    font-size: 0.6em ;
+    font-size: 0.6em;
     line-height: 0;
   }
-  &:hover{
-    cursor:pointer;
+
+  &:hover {
+    cursor: pointer;
     background-color: ${COLORS.primary};
   }
 `
 
 const IconWrapper = styled.div`
-  svg{
+  svg {
     color: #fff;
     font-size: 1.9em;
   }
@@ -34,7 +33,8 @@ const IconWrapper = styled.div`
 
 export const Category = (props) => {
 
-  const categorySelection = () =>{
+  const categorySelection = () => {
+    //alert('clicked ' + props.id)
     props.onChangeCategory(props.id)
   }
 
