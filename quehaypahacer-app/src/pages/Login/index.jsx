@@ -34,7 +34,7 @@ export const Login = () => {
     } catch (error) {
       Alert({
         icon: ALERT_ICON.ERROR,
-        tittle: 'Credenciales invalidas ',
+        title: 'Credenciales invalidas ',
         text: 'Verifica tus credenciales de acceso'
       })
     }

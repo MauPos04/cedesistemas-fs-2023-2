@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from "react"
 import { CategoryContext } from "../../../../contexts/CategoryContext"
 import { httpRequest, HTTP_METHODS } from '../../../../utils/HttpRequest'
 import { currencyFormat } from "../../../../utils/CurrencyFormat"
+import { dateFormat } from "../../../../utils/DateFormat"
 
 /* styles */
 const TopEventsContainer = styled.section`
@@ -79,7 +80,7 @@ const Event = (props) => (
       <img src={props.image} width="200px" />
       <EventContent>
         <h5>{props.name}</h5>
-        <p>{props.date}</p>
+        <p>{dateFormat(props.date)}</p>
         <p>{props.place}</p>
         {
           props.price === 0 ? <FreeText>Gratuito</FreeText> : <p>{currencyFormat(props.price)}</p>

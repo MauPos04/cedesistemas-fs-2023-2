@@ -11,12 +11,12 @@ export const ALERT_ICON = {
 
 export const Alert = ({
   icon= ALERT_ICON.INFO,
-  tittle = '',
+  title = '',
   text = ''
 }) =>{
   swal.fire({
     icon,
-    tittle,
+    title,
     text
   })
 }

@@ -6,11 +6,13 @@ import { httpRequest, HTTP_METHODS } from '../../utils/HttpRequest'
 import { currencyFormat } from '../../utils/CurrencyFormat'
 import { dateFormat } from '../../utils/DateFormat'
 import { UserContext } from '../../contexts/UserContext'
-import { Alert } from '../../components/Alert'
+import { ALERT_ICON, Alert } from '../../components/Alert'
 import { getCategoryText } from '../../constants/categoriesDict'
+import { useNavigate } from 'react-router-dom'
 
 export const EventDetail = () => {
 
+  const navigate = useNavigate()
   const { id } = useParams()
   const [event, setEvent] = useState({})
   const { user } = useContext(UserContext)
@@ -34,12 +36,36 @@ export const EventDetail = () => {
     }
   }
 
-  const joinToEvent = () => {
+  const joinToEvent = async () => {
     if (user.isAuth) { // puede unirse al evento
       // TODO: taller final :D
+
       // registrarlo al evento
+      const bookingData = {
+        idUser: user._id,
+        idEvent: event._id
+      }
+
+      const response = await httpRequest({
+        endpoint: '/booking/',
+        body: bookingData
+      })
+      const {data} = response
+
       // si sale bien: redireccionarlo a confirmation-screen
+      if(data && data?.booking && data?.booking._id){
+        navigate('/confirmation')
+      }else{
+        Alert ({
+          icon: ALERT_ICON.ERROR,
+          title: 'Reserva no existosa',
+          text: data.error
+        })
+      }
+
       // si sale mal: mostrar una alerta con la restricción
+
+
     } else {
       Alert ({
         title: 'Autenticación requerida',
@@ -47,7 +73,6 @@ export const EventDetail = () => {
       })
     }
   }
-
   return (
     <Layout>
       <h2>{event.name}</h2>
