@@ -1,0 +1,9 @@
+1. crear el componente de registro con las siguientes condiciones:
+
+  1.1 Al dar clic en el boton de registro en el login me envia a este modulo.
+  1.2 layout del registro es fullscreen.
+  1.3 usar formularios reactivos para validar los campos.
+  1.4 debe contener los campos de nombre, apellido , email y contraseña.
+  1.5 al dar click en el boton de registro validamos el formulario y redireccionamos al login.
+
+  Usando registro md bootstrap
