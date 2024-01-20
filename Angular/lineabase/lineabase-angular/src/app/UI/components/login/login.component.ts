@@ -1,4 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,8 +26,40 @@ export class LoginComponent implements OnInit {
       {type: 'minlength', message: 'La contraseña debe tener al menos 9 caracteres'}
     ]
   }
-  constructor(private router: Router, private formBuilder: FormBuilder){}
+  constructor(private router: Router, private formBuilder: FormBuilder, private http:HttpClient){}
+  login () {
+    if(this.loginForm.valid){
+    var user = this.loginForm.controls['email'].value;
+    var password = this.loginForm.controls['password'].value;
+    this.http.post('http://localhost:3000/users/login',{email: user, password}).subscribe(
+      (data: any) => {
+        if(data.token){
+          localStorage.setItem('token', data.token)
+          this.router.navigate(['/home'])
+          return;
+        }
+      },
+      (error) => {
+        alert(error.error.message)
+        return;
+      }
+    );
+  }
+  else{
+    alert('El formulario no es valido')
+    return;
+  }
+}
   ngOnInit(): void {
+    //crear variable en Localstorage /SessionStorage
+    localStorage.setItem('mail','admin@admin.com');
+    localStorage.setItem('password','Colombia2023*');
+    sessionStorage.setItem('mail', 'admin@admin.com');
+
+    //eliminar variable en Local storage  /SessionStorage
+    sessionStorage.removeItem('mail')
+
+
     this.loginForm = this.formBuilder.group({
       email:[
         '',
@@ -41,8 +74,8 @@ export class LoginComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.minLength(9),
-          Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-]).{8,}$/)
+          // Validators.minLength(9),
+          // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-]).{8,}$/)
         ]
       ]
 
@@ -52,18 +85,5 @@ export class LoginComponent implements OnInit {
   public get getControls(){
     return this.loginForm.controls
   }
-  login () {
-    var user = this.loginForm.controls['email'].value;
-    var password = this.loginForm.controls['password'].value;
-    if(this.loginForm.valid){
-      if(user == 'admin@admin.com' && password == 'Colombia2023*'){
-        this.router.navigate(['/home'])
-        return;
-      }
-      alert('usuario o contraseña invalido intente de nuevo')
-      return;
-    }
-    alert('El formulario no es valido')
-    return;
-  }
+
 }

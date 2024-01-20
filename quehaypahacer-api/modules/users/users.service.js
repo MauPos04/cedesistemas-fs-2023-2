@@ -10,7 +10,8 @@ const login = async (email, password) => {
     if (user && await bcrypt.compare(password, user.password)) {
 
       const payload = {
-        idUser: user._id
+        idUser: user._id,
+        nombre:user.name //agregado en angular
       }
       const secretKey = 'millavesecretadetokenquenadiepuedever'
       const token = await jwt.sign(payload, secretKey)
