@@ -23,6 +23,19 @@ export class RegisterComponent implements OnInit {
       {type: 'required', message: 'Este campo es requerido'},
       {type: 'pattern', message: 'La contraseña debe tener por lo menos 8 caracteres , una minuscula, una mayuscula y un caracter especial'},
       {type: 'minlength', message: 'La contraseña debe tener al menos 9 caracteres'}
+    ],
+    name: [
+      { type: 'pattern', message: 'Solo se permiten letras y espacios' },
+      { type: 'required', message: 'Este campo es requerido' }
+    ],
+    phone: [
+      { type: 'required', message: 'Este campo es requerido' }
+    ],
+    identification: [
+      { type: 'required', message: 'Este campo es requerido' }
+    ],
+    terms: [
+      { type: 'required', message: 'Se deben aceptar los terminos y condiciones' }
     ]
   }
   constructor(private router: Router, private formBuilder: FormBuilder, private http:HttpClient){}
@@ -79,7 +92,31 @@ export class RegisterComponent implements OnInit {
           // Validators.minLength(9),
           // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-]).{8,}$/)
         ]
-      ]
+      ],
+      identification: [
+        '',
+        [
+          Validators.required,
+        ]
+      ],
+      phone: [
+        '',
+        [
+          Validators.required,
+        ]
+      ],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z\s]+$/)
+        ]
+      ],
+      terms: [
+        '',
+        [
+          Validators.requiredTrue,
+        ]]
 
     })
   }
