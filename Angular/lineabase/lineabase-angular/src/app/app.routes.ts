@@ -5,38 +5,45 @@ import { ContactusComponent } from './UI/components/contactus/contactus.componen
 import { FullscreenComponent } from './UI/layouts/fullscreen/fullscreen.component';
 import { LoginComponent } from './UI/components/login/login.component';
 import { RegisterComponent } from './UI/components/register/register.component';
+
+import { EventDetailComponent } from './UI/components/event-detail/event-detail.component';
 import { authGuardGuard } from './UI/shared/guards/auth-guard.guard';
 
 export const routes: Routes = [
-  {path:'', redirectTo:'/fullscreen/login', pathMatch:'full'},
-  {
-    //url.com/
-    path: '',
-    component:DefaultComponent,
-    canActivate:[authGuardGuard],
-    children: [
-      {
-        path: 'home',
-        component: HomeComponent
-      },
-      {
-        path: 'contact',
-        component: ContactusComponent
-      }
-    ]
-  },
-  {
-    path:'fullscreen',
-    component:FullscreenComponent,
-    children:[
-      {
-        path:'login',
-        component: LoginComponent
-      },
-      {
-        path:'register',
-        component: RegisterComponent
-      }
-    ]
-  }
+    {path: '',redirectTo:'/fullscreen/login',pathMatch:'full'},
+    {
+        path:'',
+        component: DefaultComponent,
+        canActivate:[authGuardGuard],
+        children: [
+            {
+                path:'home',
+                component: HomeComponent
+            },
+            {
+                path:'eventDetail/:eventId',
+                component: EventDetailComponent
+            },
+            {
+                path:'contact',
+                component:ContactusComponent
+            }
+        ]
+    },
+    {
+        path:'fullscreen',
+        component:FullscreenComponent,
+        children : [
+            {
+                //fullscreen/login
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                //fullscreen/register
+                path: 'register',
+                component: RegisterComponent
+            }
+        ]
+    }
 ];
