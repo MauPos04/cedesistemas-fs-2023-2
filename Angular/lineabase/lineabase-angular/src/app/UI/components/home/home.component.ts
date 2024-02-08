@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Eventusecase } from '../../../domain/usecases/eventusecase';
-import { Event, Events } from '../../../domain/models/Event/event';
+import { Event } from '../../../domain/models/Event/event';
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -10,15 +11,17 @@ import { RouterLink } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit {
-  constructor(private _eventsUseCase: Eventusecase) { }
-  events: Event[] = [];
+export class HomeComponent implements OnInit{
+
+  constructor(private _eventsUseCases:Eventusecase){}
+  events:Event[] = [];
+
   ngOnInit(): void {
-    this.getAllEvents('1');
+    this.getAllEvents('1')
   }
 
-  async getAllEvents(category: string) {
-    this.events = await this._eventsUseCase.getAllEvents(category);
-  }
+  async getAllEvents(category:string){
+    this.events = await this._eventsUseCases.getAllEvents(category);
 
+  }
 }
